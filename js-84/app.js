@@ -5,10 +5,17 @@ let re;
 re = /hello/;
 
 // Matchcharacter Symbols
-re = /^h/i; // Must start with
+re = /^h/i;         // hello Must start with
+re = /d$/i;         // azad  Must end with
+re = /^hello$/i;    // hello Must start and end with
+re = /^h.llo$/i;    // h1llo Mathes one characters, like wildcard. the character at . will not match but match before and after.
+re = /^h*llo$/i;    // h1111llo,hllo Matches any character 0 or more times.
+re = /gre?a?y/i;    // gray,grey,gry Optional character
+re = /gre?a?y\?/i;   // gr, Escape character. (Didn't understnad it properly)
+
 
 // String to match
-const str = 'hello world';
+const str = 'gra4?';
 
 // Log result
 function reTest(re, str){
