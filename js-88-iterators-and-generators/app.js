@@ -1,8 +1,57 @@
 // Iterator example
-function nameIterator(){
-
+function nameIterator( names ){
+    let count = names.length;
+    return {
+        next: function(){
+            if( count > 0 ){
+                count--;
+                return {
+                    done: false,
+                    value: names[count]
+                }
+            } else {
+                return {
+                    done: false
+                }
+            }
+        }
+    }
 }
 
+let namesArr = ["Alberuni", "Azad", "Denny"];
+let names = nameIterator(namesArr);
+
+console.log(names.next().value);
+console.log(names.next().value);
+console.log(names.next().value);
+console.log(names.next().value);
+
+/* Generator
+======================================================= */
+function* sayNames(){
+    yield 'Alberuni';
+    yield 'Azad';
+    yield 'Denny';
+}
+
+let names2 = sayNames();
+console.log(names2.next());
+console.log(names2.next());
+console.log(names2.next());
+console.log(names2.next());
+
+function* idCreator(){
+    let count = 0;
+    while(true){
+        yield count++;
+    }
+}
+
+let ids = idCreator();
+console.log(ids.next());
+console.log(ids.next());
+console.log(ids.next());
+console.log(ids.next());
 
 /*
 /// Summary ///
