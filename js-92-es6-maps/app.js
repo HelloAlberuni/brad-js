@@ -1,70 +1,66 @@
-/* 91. Destructuring Assignment 
+/* 91. ES6 Maps
 ======================================================= */
-let a,b;
-// [a,b] = [3,5];
-// console.log(a); // 3
+let map1 = new Map();
 
-// Rest pattern
-// [a,b, ...rest] = [3, 5, 8, 9, 10, 11]; //rest is a variable here
-// console.log(rest); // Array(4) [ 8, 9, 10, 11 ]
+// Set keys
+let key1 = 'Key 1',
+    key2 = {},
+    key3 = function(){};
 
-// [a,b,c, ...rest] = [3, 5, 8, 9, 10, 11]; //rest is a variable here
-// console.log(rest); // Array(3) [ 9, 10, 11 ] // 8 assigned into the variable c
+// Set map values by key
+map1.set(key1, 'Value of key1');
+map1.set(key2, 'Value of key2');
+map1.set(key3, 'Value of key3');
 
-// ({a, b,} = {a: 5, b: 6, c:7});
-// ({a, b, ...rest} = {a: 5, b: 6, c:7, d: 8});
-// console.log(rest); // Object { c: 7, d:8 }
+// Get values by key
+// console.log(map1.get(key1));
+// console.log(map1.get(key2));
+// console.log(map1.get(key3));
 
-// Array Destructuring
-// let people = ['Alberuni', 'Azad', 'Zenaul'];
-// let [person1, person2, person3] = people;
-// console.log(person2); // Azad
+// Count values inside the map
+// console.log(map1.size); // 3
 
-// Parse array return from function
-// function getPeople(){
-//     return ['Alberuni', 'Azad', 'Zenaul'];
-// }
-// let [person1, person2, person3] = getPeople();
-// console.log(person3); // Zenaul
-
-// Object Destructuring
-// let people = {one: 'Alberuni', two: 'Azad', three: 'Zenaul'}
-// let {one, person2, person3} = people;
-// console.log(person1); // undefined. because person1 is not in the properties
-// console.log(one, person2); // Alberuni undefined because person2 is not in the properties
-
-// let person = {
-//     name: 'Alberuni',
-//     city: 'Dhaka',
-//     country: 'Bangladesh',
-//     gender: 'Male',
-//     // even we can use function
-//     sayHello: function(){
-//         console.log('Say hello');
-//     }
+// Iterating through map
+// Using for ... of to get keys and values
+// for( let [key,value] of map1 ){
+//     console.log(`${key} = ${value}`);
 // }
 
-// Old ES5 way
-// let name = person.name,
-//     country = person.country,
-//     gender = person.gender;
+// Iterate only keys
+// for( let key of map1.keys() ){
+//     console.log(`${key}`);
+// }
 
-// console.log(name,country,gender); // Alberuni Banglades Male
+// Iterate values only
+// for( let value of map1.values() ){
+//     console.log(`${value}`);
+// }
 
-// New ES6 way (cleaner & easy way)
-// let {name, country, gender, sayHello} = person;
-// console.log(name, gender); // Alberuni Male
+// Loop with foreach
+// map1.forEach(function(key, value){
+//     console.log(`${key} = ${value}`);
+// });
 
-// sayHello(); // Say hello
+// map1.forEach(function(key, value){
+//     console.log(`${value}`);
+// });
+
+// Convert into array
+// let keyValArr = Array.from(map1);
+// console.log(keyValArr);
+
+// Create an array of the values
+// let valArr = Array.from(map1.values());
+// console.log(valArr);
+
+// Create an array of the keys
+let keyArr = Array.from(map1.keys());
+console.log(keyArr);
+
+
 
 /*
 /// Summary ///
-- Destructuring introduced int ES6
-- It gives us more cleaner & easy way to assigning & extracting variables than ES5 way
-- Rest pattern (New keyword)
-- Whatever is leftover into an array into a variable is called rest
-- Array Destructuring, Object Destructuring (New keyword)
-
-From google:
-- Destructuring Assignment is a JavaScript expression that allows to unpack values from arrays, or properties from objects, into distinct variables data can be extracted from arrays, objects, nested objects and assigning to variables.
+- Maps are key value paired
+- We can use any type as key or value
 */
