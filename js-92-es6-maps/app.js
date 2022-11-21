@@ -1,4 +1,4 @@
-/* 91. ES6 Maps
+/* 92. ES6 Maps
 ======================================================= */
 let map1 = new Map();
 
@@ -61,6 +61,7 @@ console.log(keyArr);
 
 /*
 /// Summary ///
+- Map is a new Obeject structure in ES6
 - Maps are key value paired
 - We can use any type as key or value
 - We can set map values by key
