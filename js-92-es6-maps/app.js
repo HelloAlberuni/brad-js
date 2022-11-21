@@ -63,4 +63,25 @@ console.log(keyArr);
 /// Summary ///
 - Maps are key value paired
 - We can use any type as key or value
+- We can set map values by key
+- "size" property used to count values inside the map
+- We can Iterate through elements
+- For ... of or For in loop can be used to get get map values or keys
+- Array.from can be used to convert map to an array
+- Map keys can ber converted to an array using Array.from(map1.keys())
+- Map values can ber converted to an array using Array.from(map1.values())
+
+// From Sumit:
+- Obeject keys are alwasy 'string' data type
+- Map intended to use the kay as any data type
+- A map holds key-value pairs where the keys can be any datatype
+- A map remember the order of the key-vlaue insertion
+- Keys are not well ordered in Obeject but for Map keys are ordered by insertion
+- Obeject is not directly iterable but Map is iterable
+- We can insert an array in the map with key-value pair like this new map([ ["key1", value1],["key2": value] ]);
+- Sets & Map are similar just another data structure
+- Map has only one property called "size"
+- has(key) method
+- Kyes must be string or symbol for the Obeject
+- entries() method returns an iterator Obeject with  the key-value in a map.
 */
