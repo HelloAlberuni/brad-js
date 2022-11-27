@@ -48,14 +48,93 @@ let set2 = new Set([100, 'A string', {name: 'Alberuni', gender: 'Male'}, true]);
 // });
 
 // Convert set to Array
-let setArr = Array.from(set2);
-console.log(setArr); // Array(4) [ 100, "A string", {…}, true ]
+// let setArr = Array.from(set2);
+// console.log(setArr); // Array(4) [ 100, "A string", {…}, true ]
+
+// From Sumit
+
+// Convert array to set
+// let myArray = [1,2,4,5];
+// let mySet = new Set('Bangladesh');
+// let mySet = new Set(myArray);
+// console.log(mySet);
+
+// Convert set to array
+// let set11 = new Set('Bangladesh');
+// console.log( [...set11] ); // Array(9) [ "B", "a", "n", "g", "l", "d", "e", "s", "h" ] // Method:1
+// console.log(Array.from(set11)); // Array(9) [ "B", "a", "n", "g", "l", "d", "e", "s", "h" ] // Method:2
+
+// Store object is set
+// In the example below 3 objects are added and the mySet variable will containt 3 elements which is Obeject. Since object is reference type data and each time we are adding new object, passing a new reference corresponding the data. In the Example:2 shown how unique Obejects can be stored in set.
+// Example: 1
+// let mySet = new Set();
+// mySet.add({
+//     a: 'Alberuni',
+//     b: 'Azad'
+// });
+// mySet.add({
+//     a: 'Alberuni',
+//     b: 'Azad'
+// });
+// mySet.add({
+//     a: 'Alberuni',
+//     b: 'Azad'
+// });
+
+// console.log(mySet);
+// console.log(mySet.size); // 3
+
+// Example: 2
+// In this example, the object is instatiate only 1 time and saved it to a variable. This way the mySet will contain only one object. Because now, each time we are adding the object is treating as same value (reference).
+// let info = {
+//     a: 'Alberuni',
+//     b: 'Azad'
+// }
+// mySet.add(info);
+// mySet.add(info);
+// mySet.add(info);
+// console.log(mySet);
+// console.log(mySet.size); // 1
+
+/* Use cases:
+======================================================= */
+
+// Get unique values of an array without using any loop or other ways
+// let arr = [1,2,3,3,4,2,4,5,6];
+// convert array to a Set
+// let mySet = new Set(arr); // Set(6) [ 1, 2, 3, 4, 5, 6 ]
+// Then convert the set to an array
+// console.log([...mySet]); //Array(6) [ 1, 2, 3, 4, 5, 6 ]
+
+// Union operation
+let seta = new Set([1,3,5,3]);
+let setb = new Set([3,4,6,5]);
+
+// let Union = new Set([...seta, ...setb]); // Set(5) [ 1, 3, 5, 4, 6 ]=
+// console.log(Union);
+
+// intersection
+// let intersection = new Set([...seta].filter(x => setb.has(x)));
+// console.log( intersection ); // Set [ 3, 5 ]
+
+// difference
+// let difference = new Set([...seta].filter(x => !setb.has(x)));
+// console.log( difference ); // Set [ 1 ] // seta - setb = the elements in seta is not exists in setb. setb -(minus) seta = opposite.
+
+/* WeakSet
+======================================================= */
+// WeakSet only accept object
+let ws = new WeakSet( {a: 'Alberuni', b: 'Azad'} );
+// let ws = new WeakSet( 'Bangladesh' ); // it will through an "Uncaught TypeError: WeakSet value must be an object, got nextValue"
+console.log(ws);
+
 
 /*
 /// Summary ///
 - Store unique values of any type
 
 // From Sumit:
+- Set is a list of unique values
 - One of the most beautiful feature of ES6 is set
 - Set is like array
 - Set is used to store unique data
@@ -71,4 +150,10 @@ console.log(setArr); // Array(4) [ 100, "A string", {…}, true ]
 - Set is an iterable object, so we can use for ... of to iterate
 - We can convert set to an array. e.g: [...set1]
 - Set is mainly used to perform operation like Union, intersection, difference etc
+- For any operation in set, first we covert it to an array then perform operation on the array and finally we convert the performed operation into a set. This is a common pattern of using set. But the main purpose is set always store unique values.
+
+Weak Set:
+- The difference of Weak set with Set is, it is only work with Obeject but set works with any kind premitive data type, like string, boolean etc.
+- Weak set are not iterable, but it takes iterable which is object.
+- WeakSet are rarely used.
 */
