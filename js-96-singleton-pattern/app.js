@@ -1,6 +1,29 @@
 /* 96. Sinngleton pattern
 ======================================================= */
+let SinngletonP = (function(){
+    let instancee;
 
+    let createInstance = function(){
+        let obj = new Object({name: 'Azad'});
+        return obj;
+    }
+    
+    return {
+        getInstance: function(){
+            if( !instancee ){
+                instancee = createInstance();
+            }
+    
+            return instancee;
+        }
+    }
+})();
+
+let ins1 = SinngletonP.getInstance();
+let ins2 = SinngletonP.getInstance();
+
+// console.log(ins1 == ins2); // true (same instance)
+console.log(ins1); // {name: 'Azad'}
 
 /*
 /// Summary ///
