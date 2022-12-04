@@ -19,7 +19,7 @@ const ChatRoom = function(){
     let users = {} // users list
 
     return {
-        register: function(user){
+        registerr: function(user){
             users[user.name] = user;
             user.chatroom = this;
         },
@@ -45,9 +45,9 @@ const Zenaul = new User('Zenaul');
 
 const chatroom = new ChatRoom();
 
-chatroom.register(Alberuni);
-chatroom.register(Mahmudur);
-chatroom.register(Zenaul);
+chatroom.registerr(Alberuni);
+chatroom.registerr(Mahmudur);
+chatroom.registerr(Zenaul);
 
 Alberuni.send('Hello Mahmudur vai', Mahmudur);
 Mahmudur.send('Hello Azad vai are you there?', Alberuni);
