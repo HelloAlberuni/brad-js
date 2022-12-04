@@ -66,5 +66,6 @@ Mahmudur.send('Hello Azad vai are you there?', Alberuni);
 // From Sumit:
 
 // From DevSage:
-
+- The mediator pattern allows us to define an object know as the mediator, that encapsulate and control how some set of objects interact with each other
+- For example Object A,B,C needs to send/recive some information each other. Instead of communicating each other directly to/from each other, the object A/B/C will send their message to another Mediator object. And the mediator takes those messages and handles all of the complicated logics and routing to decide where these messages need to go.
 */
