@@ -61,7 +61,7 @@ let getCurrSeconds = function(){
 
 /*
 /// Summary ///
-
+- It is a Behavioural pattern
 
 // From Sumit:
 
