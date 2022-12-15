@@ -12,9 +12,9 @@ const ItemCtrl = (function(){
     // Data stracture / state
     const data = {
         items: [
-            {id: 0, name: 'Rice', calories: 1000},
-            {id: 1, name: 'Beef', calories: 1200},
-            {id: 2, name: 'Cake', calories: 700},
+            // {id: 0, name: 'Rice', calories: 1000},
+            // {id: 1, name: 'Beef', calories: 1200},
+            // {id: 2, name: 'Cake', calories: 700},
         ],
         currentItem: null,
         totalCalories: 0
@@ -89,6 +89,23 @@ const UICtrl = (function(){
                 calories: document.querySelector(UISelectors.itemCaloriesInput).value
             }
         },
+        addListItem: function(item){
+            let li               = document.createElement('li');
+                li.className     = 'collection-item';
+                li.id            = `item-${item.id}`;
+
+                li.innerHTML = `
+                <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+                <a href="#" class="secondary-content">
+                  <i class="edit-item fa fa-pencil"></i>
+                </a>`;
+              
+            document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li);
+        },
+        clearFields: function(){
+            document.querySelector(UISelectors.itemNameInput).value = '';
+            document.querySelector(UISelectors.itemCaloriesInput).value = '';
+        },
         getSelectors: function(){
             return UISelectors; // const UISelectors is private var so needed to create a getter method
         }
@@ -117,7 +134,14 @@ const App = (function(ItemCtrl, UICtrl){
 
         // Check values
         if( inputs.name != '' && inputs.calories != '' ){
-            ItemCtrl.addItem(inputs.name, inputs.calories);
+            // Add item to data structure
+            let newItem = ItemCtrl.addItem(inputs.name, inputs.calories);
+
+            // Add item to the UI
+            UICtrl.addListItem(newItem);
+
+            // Clear fields
+            UICtrl.clearFields();
         }
         console.log(inputs);
     }
