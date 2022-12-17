@@ -47,6 +47,16 @@ const ItemCtrl = (function(){
 
             return newItem;
         },
+        getTotalCalories: function(){
+            let total = 0;
+            data.items.forEach(function(item){
+                total += item.calories;
+            });
+
+            // Set total cal in the data stracture
+            data.totalCalories = total;
+            return data.totalCalories;
+        },
         logData: function(){
             return data;
         }
@@ -61,6 +71,7 @@ const UICtrl = (function(){
         addItem: '.add-btn',
         itemNameInput: '#item-name',
         itemCaloriesInput: '#item-calories',
+        totalCalories: '.total-calories'
     }
 
     // Return the module
@@ -70,7 +81,6 @@ const UICtrl = (function(){
             let html = '';
 
             items.forEach(element => {
-                console.log(element);
                 html += `
                 <li class="collection-item" id="item-${element.id}">
                     <strong>${element.name}: </strong> <em>${element.calories} Calories</em>
@@ -101,6 +111,9 @@ const UICtrl = (function(){
                 </a>`;
               
             document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li);
+        },
+        showTotalCalories: function(totalCalories){
+            document.querySelector(UISelectors.totalCalories).textContent = totalCalories;
         },
         clearFields: function(){
             document.querySelector(UISelectors.itemNameInput).value = '';
@@ -140,10 +153,15 @@ const App = (function(ItemCtrl, UICtrl){
             // Add item to the UI
             UICtrl.addListItem(newItem);
 
+            // Get total calories
+            let totalCalories = ItemCtrl.getTotalCalories();
+
+            // Add total calories to UI
+            UICtrl.showTotalCalories(totalCalories);
+
             // Clear fields
             UICtrl.clearFields();
         }
-        console.log(inputs);
     }
 
     // Public method
@@ -156,6 +174,10 @@ const App = (function(ItemCtrl, UICtrl){
 
             // Populate list with items
             UICtrl.renderItems(items);
+
+            // Show total calories for first load
+            let totalCalories = ItemCtrl.getTotalCalories();
+            UICtrl.showTotalCalories(totalCalories);
 
             // Event listeners
             loadEventListeners();
