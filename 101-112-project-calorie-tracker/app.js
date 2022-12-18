@@ -26,6 +26,17 @@ const ItemCtrl = (function(){
         getItems: function(){
             return data.items;
         },
+        getItemById: function( id ){
+            let found = null;
+
+            data.items.forEach(function(item){
+                if (item.id === id ){
+                    found = item;
+                }
+            });
+
+            return found;
+        },
         addItem: function(name, calories){
             let id;
 
@@ -57,6 +68,26 @@ const ItemCtrl = (function(){
             data.totalCalories = total;
             return data.totalCalories;
         },
+        updateItem: function(name, calories){
+            let found = null;
+
+            data.items.forEach(function(item){
+                // Match the id where to update the item
+                if (item.id === ItemCtrl.getCurrentItem().id ){
+                    item.name = name;
+                    item.calories = parseInt(calories);
+                    found = item;
+                }
+            });
+
+            return found;
+        },
+        setCurrentItem: function( item ){
+            data.currentItem = item;
+        },
+        getCurrentItem: function(){
+            return data.currentItem;
+        },
         logData: function(){
             return data;
         }
@@ -69,9 +100,13 @@ const UICtrl = (function(){
     const UISelectors = {
         itemList: '#item-list',
         addItem: '.add-btn',
+        updateBtn: '.update-btn',
+        deleteBtn: '.delete-btn',
+        backBtn: '.back-btn',
         itemNameInput: '#item-name',
         itemCaloriesInput: '#item-calories',
-        totalCalories: '.total-calories'
+        totalCalories: '.total-calories',
+        collectionItem: '.collection-item'
     }
 
     // Return the module
@@ -112,12 +147,35 @@ const UICtrl = (function(){
               
             document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li);
         },
+        updateListItem: function(item){
+
+        },
         showTotalCalories: function(totalCalories){
             document.querySelector(UISelectors.totalCalories).textContent = totalCalories;
         },
         clearFields: function(){
             document.querySelector(UISelectors.itemNameInput).value = '';
             document.querySelector(UISelectors.itemCaloriesInput).value = '';
+        },
+        clearEditState: function(){
+            UICtrl.clearFields();
+            document.querySelector(UISelectors.updateBtn).style.display = 'none';
+            document.querySelector(UISelectors.deleteBtn).style.display = 'none';
+            document.querySelector(UISelectors.backBtn).style.display = 'none';
+            document.querySelector(UISelectors.addItem).style.display = 'inline';
+        },
+        addItemToFrom: function(){
+            document.querySelector(UISelectors.itemNameInput).value = ItemCtrl.getCurrentItem().name;
+            document.querySelector(UISelectors.itemCaloriesInput).value = ItemCtrl.getCurrentItem().calories;
+
+            // Show edit state
+            UICtrl.showEditState();
+        },
+        showEditState: function(){
+            document.querySelector(UISelectors.updateBtn).style.display = 'inline';
+            document.querySelector(UISelectors.deleteBtn).style.display = 'inline';
+            document.querySelector(UISelectors.backBtn).style.display = 'inline';
+            document.querySelector(UISelectors.addItem).style.display = 'none';
         },
         getSelectors: function(){
             return UISelectors; // const UISelectors is private var so needed to create a getter method
@@ -136,6 +194,20 @@ const App = (function(ItemCtrl, UICtrl){
 
         // Add item
         document.querySelector(UISelectors.addItem).addEventListener('click', addItem);
+
+        // Disable enter button on submit
+        document.addEventListener('keypress', function(e){
+            if(e.keyCode === 13 || e.which === 13){
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Edit item
+        document.querySelector(UISelectors.itemList).addEventListener('click', editItem);
+
+        // Item update submit
+        document.querySelector(UISelectors.updateBtn).addEventListener('click', updateItem);
     }
 
     // Add Item to the list
@@ -164,10 +236,64 @@ const App = (function(ItemCtrl, UICtrl){
         }
     }
 
+    const editItem = function(e){
+        e.preventDefault();
+
+        // console.log(e.target);
+        // console.log(e.target.id);
+        // console.log(e.target.classList);
+        if( e.target.classList.contains('edit-item') ){
+            // Get list item id 
+            let listId = e.target.parentNode.parentNode.id;
+
+            // Break into an array
+            let listIdArr = listId.split('-');
+
+            // Actual id
+            let id = parseInt(listIdArr[1]);
+
+            // Get item from data stracture
+            let itemToEdit = ItemCtrl.getItemById(id);
+
+            // Set current item for edit state
+            ItemCtrl.setCurrentItem(itemToEdit);
+
+            // Add item to form
+            UICtrl.addItemToFrom();
+        }
+    }
+
+    const updateItem = function(e){
+        e.preventDefault();
+
+        // Update data to data stracture
+        let name     = UICtrl.getItemInput().name;
+        let calories = UICtrl.getItemInput().calories;
+        let item = ItemCtrl.updateItem(name, calories);
+
+        // Update data to list item UI
+        UICtrl.updateListItem(item);
+
+        // Update total calories UI
+        let totalCalories = ItemCtrl.getTotalCalories();
+
+        // Add total calories to UI
+        UICtrl.showTotalCalories(totalCalories);
+
+        // Clear update state
+        UICtrl.clearEditState();
+        
+        // currentItem
+        let currentItme = ItemCtrl.getCurrentItem();
+        ItemCtrl.setCurrentItem();
+    }
+
     // Public method
     return {
         init: function(){
             // console.log('Initializing the app....');
+            // Don't show edit state field for first laod
+            UICtrl.clearEditState();
 
             // Fetch items from deta stracture
             let items = ItemCtrl.getItems();
@@ -191,5 +317,16 @@ App.init();
 /// Summary ///
 - Used iffe
 - Followed module pattern
-- 
+- Access parent dome using e.target.parentNode
+- Get class list of an element suing e.target.classList
+- PHP explode = JS split
+- split is used like this text.split(" ")
+- On click edit item
+    - Get the item id
+    - Get item data from data stracture by the item id
+    - show the item data in the form
+    - Hide add button and show update, delete and back button
+    - Disable enter button
+    - Update calorie total
+    - Update list item
 */
