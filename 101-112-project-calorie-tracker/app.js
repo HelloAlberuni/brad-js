@@ -470,9 +470,13 @@ App.init();
     - Update calorie total
     - Update list item
 
-- Add back to list function
+- Make back button functional
 - Delete item Data structure & UI
 - Delete all items from Data structure & UI
 - Add local storage
-
+    - Add item
+    - Update item
+    - Get all items
+    - Delete item
+    - Delete all items
 */
