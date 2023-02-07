@@ -4,6 +4,26 @@
       "id": 1,
       "title": "json-server",
       "body": "lorem  impsum dolor is amet"
+    },
+    {
+      "title": "a",
+      "body": "b",
+      "id": 2
+    },
+    {
+      "title": "Post 3",
+      "body": "Post body 3",
+      "id": 3
+    },
+    {
+      "title": "Post 4",
+      "body": "Body 4",
+      "id": 4
+    },
+    {
+      "title": "Post 5",
+      "body": "Body 5",
+      "id": 5
     }
   ],
   "comments": [
