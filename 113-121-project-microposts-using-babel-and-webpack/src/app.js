@@ -70,27 +70,56 @@ function reloadPosts(){
     .then(err => console.log(err))
 }
 
-// Listen for add post
+// Listen for add/update post
 ui.submiBtn.addEventListener('click', function(e){
     e.preventDefault();
 
     // Validation
     if(ui.titleInput.value === '' || ui.bodyInput.value === ''){
-        ui.displayError('Please fill in all the fields', 'alert alter-danger')
+        ui.displayError('Please fill in all the fields', 'alert alert-danger')
+
+        setTimeout(() => {
+            document.querySelector('.alert').remove();
+        }, 3000);
+
+        return;
     }
 
-    // Add
-    http.post('http://localhost:3000/posts', {
-        title: ui.titleInput.value,
-        body: ui.bodyInput.value
-    })
-    .then( res => {
-        alert('Post Added!');
-        reloadPosts()
-    } )
-    .catch( err => console.log(err) )
-
-    // Update
+    
+    if( !ui.idInput.value ){
+        // Add
+        http.post('http://localhost:3000/posts', {
+            title: ui.titleInput.value,
+            body: ui.bodyInput.value
+        })
+        .then( res => {
+            alert('Post Added!');
+            reloadPosts()
+        } )
+        .catch( err => console.log(err) )
+    } else if( ui.idInput.value ){
+        // Update
+        http.post(`http://localhost:3000/posts/${ui.idInput.value}`, {
+            title: ui.titleInput.value,
+            body: ui.bodyInput.value
+        })
+        .then( res => {
+            alert('Post Updated!');
+            reloadPosts()
+        } )
+        .catch( err => console.log(err) )
+    }
 });
 
-// Update post
+// Listen for enable edit state
+ui.posts.addEventListener('click', function(e){
+    e.preventDefault();
+    
+    if(e.target.parentElement.classList.contains('edit')){
+        let id = e.target.parentElement.dataset.id;
+        let title = e.target.parentElement.previousElementSibling.previousElementSibling.textContent;
+        let desc = e.target.parentElement.previousElementSibling.textContent;
+        
+        ui.fillForm(id, title, desc);
+    }
+});

@@ -5,7 +5,10 @@ class UI{
         this.bodyInput = document.querySelector('#body');
         this.submiBtn = document.querySelector('.post-submit');
         this.posts = document.querySelector('#posts');
-        this.posts = document.querySelector('#posts');
+        this.postsContainer = document.querySelector('.postsContainer');
+        this.card = document.querySelector('.card');
+        this.edit = document.querySelector('.edit');
+        this.idInput = document.querySelector('#id');
         this.forSate = 'add'; // Default state of the app
     }
 
@@ -43,6 +46,21 @@ class UI{
         `;
 
         this.posts.append(output);
+    }
+
+    displayError(msg, cls){
+        let div = document.createElement('div');
+        div.className = cls;
+        div.textContent = msg;
+
+        this.postsContainer.insertBefore(div, this.card)
+    }
+
+    // Fill the form with existing data when click on edit icon
+    fillForm(id, title, desc){
+        this.idInput.value = id;
+        this.titleInput.value = title;
+        this.bodyInput.value = desc;
     }
 }
 
