@@ -48,19 +48,29 @@ class UI{
         this.posts.append(output);
     }
 
-    displayError(msg, cls){
+    displayMessage(msg, cls){
         let div = document.createElement('div');
         div.className = cls;
         div.textContent = msg;
 
         this.postsContainer.insertBefore(div, this.card)
+
+        setTimeout(() => {
+            document.querySelector('.alert').remove();
+        }, 3000);
     }
 
     // Fill the form with existing data when click on edit icon
-    fillForm(id, title, desc){
-        this.idInput.value = id;
-        this.titleInput.value = title;
-        this.bodyInput.value = desc;
+    fillForm(data){
+        this.idInput.value = data.id;
+        this.titleInput.value = data.title;
+        this.bodyInput.value = data.desc;
+    }
+
+    clearForm(){
+        this.idInput.value = '';
+        this.titleInput.value = '';
+        this.bodyInput.value = '';
     }
 }
 

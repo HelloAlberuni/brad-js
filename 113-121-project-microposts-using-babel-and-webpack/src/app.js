@@ -57,13 +57,26 @@ console.log(http);
 
 import { ui } from './UI';
 
+// Initial state of the App
+document.addEventListener('DOMContentLoaded', displayPosts );
+
+// Listen for add/update post
+ui.submiBtn.addEventListener('click', submitPost );
+
+// Listen to enable edit state
+ui.posts.addEventListener('click', enableEditState );
+
+// Listen for delete
+ui.posts.addEventListener('click', deletePost );
+
 // Display posts
-document.addEventListener('DOMContentLoaded', function(){
+function displayPosts(){
     http.get('http://localhost:3000/posts')
     .then( res => ui.displayPosts(res) )
     .catch( err => console.log(err) )
-});
+}
 
+// Reload post list when any post is added/edited/deleted
 function reloadPosts(){
     http.get('http://localhost:3000/posts')
     .then(res => ui.displayPosts(res))
@@ -71,17 +84,12 @@ function reloadPosts(){
 }
 
 // Listen for add/update post
-ui.submiBtn.addEventListener('click', function(e){
+function submitPost(e){
     e.preventDefault();
 
     // Validation
     if(ui.titleInput.value === '' || ui.bodyInput.value === ''){
-        ui.displayError('Please fill in all the fields', 'alert alert-danger')
-
-        setTimeout(() => {
-            document.querySelector('.alert').remove();
-        }, 3000);
-
+        ui.displayMessage('Please fill in all the fields', 'alert alert-danger')
         return;
     }
 
@@ -94,32 +102,55 @@ ui.submiBtn.addEventListener('click', function(e){
         })
         .then( res => {
             alert('Post Added!');
+            ui.clearForm();
             reloadPosts()
         } )
         .catch( err => console.log(err) )
     } else if( ui.idInput.value ){
         // Update
-        http.post(`http://localhost:3000/posts/${ui.idInput.value}`, {
+        http.put(`http://localhost:3000/posts/${ui.idInput.value}`, {
             title: ui.titleInput.value,
             body: ui.bodyInput.value
         })
         .then( res => {
             alert('Post Updated!');
+            ui.clearForm();
             reloadPosts()
         } )
         .catch( err => console.log(err) )
     }
-});
+}
 
 // Listen for enable edit state
-ui.posts.addEventListener('click', function(e){
+function enableEditState(e){
     e.preventDefault();
     
     if(e.target.parentElement.classList.contains('edit')){
         let id = e.target.parentElement.dataset.id;
         let title = e.target.parentElement.previousElementSibling.previousElementSibling.textContent;
         let desc = e.target.parentElement.previousElementSibling.textContent;
-        
-        ui.fillForm(id, title, desc);
+
+        let data = {
+            id, title, desc
+        }
+
+        ui.fillForm(data);
     }
-});
+}
+
+// Listen for delete
+function deletePost(e){
+    e.preventDefault();
+
+    if(e.target.parentElement.classList.contains('delete')){
+        if( confirm('Do you want to delete the post!') ){
+            let id = e.target.parentElement.dataset.id;
+            http.delete(`http://localhost:3000/posts/${id}`)
+            .then( res => {
+                alert('Post Deleted!');
+                reloadPosts();
+            })
+            .catch( err => console.log(err) )
+        }
+    }
+}
