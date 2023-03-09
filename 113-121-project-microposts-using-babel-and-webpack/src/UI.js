@@ -50,10 +50,10 @@ class UI{
 
     displayMessage(msg, cls){
         let div = document.createElement('div');
-        div.className = cls;
-        div.textContent = msg;
+        div.className = 'container';
+        div.innerHTML = `<div class="col-md-12 ${cls}">${msg}</div>`
 
-        this.postsContainer.insertBefore(div, this.card)
+        document.querySelector('body').insertBefore(div, document.querySelector('.postsContainer'))
 
         setTimeout(() => {
             document.querySelector('.alert').remove();
